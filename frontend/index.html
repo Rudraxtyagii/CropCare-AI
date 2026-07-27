@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropCare AI - Intelligent Plant Disease Detection</title>
+    <meta name="description" content="AI-powered tool for detecting plant diseases from leaf images with production-level accuracy.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-elements">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>CropCare <span class="gradient-text">AI</span> <i class="fa-solid fa-leaf"></i></h1>
+            <p class="hero-subtitle">Production-grade AI application to instantly detect and treat 38+ plant diseases.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Dashboard / Layout Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Column: Upload & Results -->
+            <div class="main-column">
+                
+                <!-- Upload Section -->
+                <section class="glass-panel upload-section" id="upload-panel">
+                    <h2><i class="fa-solid fa-cloud-arrow-up"></i> Analyze a Leaf</h2>
+                    
+                    <div id="drop-zone" class="drop-zone">
+                        <i class="fa-solid fa-image upload-icon"></i>
+                        <p class="upload-text">Drag & Drop your leaf image here</p>
+                        <p class="upload-subtext">Supports JPG, JPEG, PNG (Max 5MB)</p>
+                        <input type="file" id="file-input" accept="image/jpeg, image/png, image/jpg" hidden>
+                        <button class="btn secondary-btn" id="browse-btn">Browse Files</button>
+                    </div>
+                    
+                    <div id="validation-error" class="error-message hidden">
+                        <i class="fa-solid fa-circle-exclamation"></i> <span id="error-text">Invalid file.</span>
+                    </div>
+                    
+                    <div id="preview-container" class="preview-container hidden">
+                        <div class="preview-wrapper">
+                            <img id="image-preview" src="#" alt="Leaf Preview">
+                            <button id="remove-img-btn" class="remove-btn" title="Remove Image"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="actions">
+                            <button id="analyze-btn" class="btn primary-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Leaf</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Loading State -->
+                <section id="loading-state" class="glass-panel hidden">
+                    <div class="loader-content">
+                        <div class="spinner"></div>
+                        <h3 class="gradient-text pulse-text">Analyzing Leaf...</h3>
+                        <p>Our AI is running inference on your image.</p>
+                        <!-- Skeleton Loaders -->
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                </section>
+
+                <!-- Result Card -->
+                <section id="result-section" class="glass-panel result-section hidden">
+                    <div class="result-header">
+                        <h2>Analysis Complete</h2>
+                        <button id="new-analysis-btn" class="btn outline-btn btn-sm"><i class="fa-solid fa-rotate-right"></i> New Analysis</button>
+                    </div>
+
+                    <div id="mock-warning" class="warning-banner hidden">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <strong>Mock Mode Active:</strong> Displaying simulated results.
+                    </div>
+
+                    <div class="result-top">
+                        <div class="disease-image-placeholder">
+                            <i class="fa-solid fa-microscope"></i>
+                        </div>
+                        <div class="disease-identification">
+                            <p class="plant-label">Detected Plant</p>
+                            <h3 id="res-plant-name" class="plant-name">-</h3>
+                            <p class="disease-label">Disease Identification</p>
+                            <h3 id="res-disease-name" class="disease-name gradient-text">-</h3>
+                        </div>
+                    </div>
+
+                    <div class="confidence-box">
+                        <div class="conf-header">
+                            <span>AI Confidence Score</span>
+                            <span id="res-confidence-badge" class="badge">High</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="res-confidence-bar" class="progress-bar-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="conf-footer">
+                            <span id="res-confidence-percent">0%</span> match certainty
+                        </div>
+                    </div>
+
+                    <div class="rich-info-grid">
+                        <div class="info-card">
+                            <h4><i class="fa-solid fa-circle-info"></i> Description</h4>
+                            <p id="res-description">-</p>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fa-solid fa-viruses"></i> Common Causes</h4>
+                            <ul id="res-causes" class="custom-list"></ul>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fa-solid fa-prescription-bottle-medical"></i> Treatment</h4>
+                            <ul id="res-treatment" class="custom-list"></ul>
+                        </div>
+                        <div class="info-card">
+                            <h4><i class="fa-solid fa-shield-halved"></i> Prevention</h4>
+                            <ul id="res-prevention" class="custom-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Stats & History -->
+            <div class="side-column">
+                
+                <!-- Statistics Dashboard -->
+                <section class="glass-panel stats-panel">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Statistics Dashboard</h3>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-total">0</div>
+                            <div class="stat-label">Total Scans</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-avg-conf">0%</div>
+                            <div class="stat-label">Avg. Confidence</div>
+                        </div>
+                        <div class="stat-box full-width">
+                            <div class="stat-label">Most Frequent Disease</div>
+                            <div class="stat-value text-small" id="stat-frequent">-</div>
+                        </div>
+                        <div class="stat-box full-width">
+                            <div class="stat-label">Last Prediction</div>
+                            <div class="stat-value text-small" id="stat-last-time">Never</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Prediction History -->
+                <section class="glass-panel history-panel">
+                    <div class="history-header">
+                        <h3><i class="fa-solid fa-clock-rotate-left"></i> History</h3>
+                        <button id="clear-history-btn" class="clear-link">Clear</button>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <!-- History items will be injected here via JS -->
+                        <div class="empty-state">No predictions yet.</div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>CropCare AI &copy; 2026 | Built for KIET Major Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
