@@ -85,7 +85,59 @@ def create_presentation():
     p.text = "Loss Function: Cross-Entropy Loss for multi-class classification."
     p.level = 1
 
-    # 5. Conclusion Slide
+    # 5. Live Runtime Verification & QA Slide
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    body_shape = shapes.placeholders[1]
+    
+    title_shape.text = "Live Runtime Verification & QA"
+    tf = body_shape.text_frame
+    tf.text = "Empirical Proof of Functionality"
+    
+    p = tf.add_paragraph()
+    p.text = "API Test Suite: Verified POST /predict endpoint live on HTTP port 8000."
+    p.level = 1
+    
+    p = tf.add_paragraph()
+    p.text = "HTTP 200 OK: Valid JPEG/PNG leaf images return structured JSON with confidence tiers and treatments."
+    p.level = 1
+    
+    p = tf.add_paragraph()
+    p.text = "HTTP 400 Bad Request: Successfully intercepts and rejects invalid text files and >5MB oversized images."
+    p.level = 1
+
+    p = tf.add_paragraph()
+    p.text = "Dependency Audit: 100% clean package imports (FastAPI, PyTorch, Uvicorn, Pillow, Pydantic)."
+    p.level = 1
+
+    # 6. GitHub Repository & Deliverables Slide
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    body_shape = shapes.placeholders[1]
+    
+    title_shape.text = "GitHub Repository & Deliverables"
+    tf = body_shape.text_frame
+    tf.text = "Open Source Project Repository"
+    
+    p = tf.add_paragraph()
+    p.text = "GitHub URL: https://github.com/Rudraxtyagii/CropCare-AI"
+    p.level = 1
+    
+    p = tf.add_paragraph()
+    p.text = "AI/ML Codebase: train.py, inference.py, and 38-class botanical knowledge base."
+    p.level = 1
+    
+    p = tf.add_paragraph()
+    p.text = "Production Server: main.py (FastAPI) with CORS and Pydantic validation."
+    p.level = 1
+
+    p = tf.add_paragraph()
+    p.text = "Documentation: Technical Report, Verification QA Report, Title Page, and Summary PDF."
+    p.level = 1
+
+    # 7. Conclusion Slide
     slide = prs.slides.add_slide(bullet_slide_layout)
     shapes = slide.shapes
     title_shape = shapes.title
