@@ -12,7 +12,7 @@ def create_presentation():
     subtitle = slide.placeholders[1]
     
     title.text = "CropCare AI"
-    subtitle.text = "Intelligent Plant Disease Detection System\n\nSummer Internship - 2026\nMajor Project"
+    subtitle.text = "Intelligent Plant Disease Detection System\n\nSummer Internship & Major Project - 2026 | KIET Group of Institutions\nSubmitted by: Rudra Tyagi (Roll No: 2400290110147 | ID: 202401100500147)\nB.Tech CSIT (Section B)"
 
     # 2. Problem Statement Slide
     bullet_slide_layout = prs.slide_layouts[1]
@@ -155,8 +155,13 @@ def create_presentation():
     p.text = "Future Work: Mobile App integration, real-time drone imagery analysis, and edge deployment."
     p.level = 1
 
-    prs.save('Presentation.pptx')
-    print("Presentation.pptx successfully created!")
+    output_ppt = 'CropCare_AI_Presentation.pptx'
+    prs.save(output_ppt)
+    print(f"{output_ppt} successfully created!")
+    try:
+        prs.save('Presentation.pptx')
+    except PermissionError:
+        pass
 
 if __name__ == '__main__':
     create_presentation()
